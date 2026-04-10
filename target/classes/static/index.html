@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Virtual Art Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#0a0a0b; --fg:#fafafa; --muted:#a1a1aa; --accent:#c9a227; --accent-light:#e8c547; --card:rgba(24,24,27,.85); --border:#27272a; }
+        * { box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--fg); min-height:100vh; margin:0; position:relative; overflow-x:hidden; }
+        h1,h2,h3 { font-family:'Playfair Display',serif; }
+        .bg-atmosphere { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+        .bg-atmosphere::before { content:""; position:absolute; top:-40%; left:-40%; width:180%; height:180%; background:radial-gradient(circle at 20% 20%, rgba(201,162,39,.10), transparent 30%), radial-gradient(circle at 80% 70%, rgba(201,162,39,.08), transparent 30%), radial-gradient(circle at 50% 50%, rgba(255,255,255,.03), transparent 25%); animation:floatBg 16s ease-in-out infinite; }
+        @keyframes floatBg { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-2%,2%) scale(1.03)} }
+        .login-wrapper { position:relative; z-index:1; min-height:100vh; display:grid; grid-template-columns:1fr; }
+        @media (min-width:1024px){ .login-wrapper{ grid-template-columns:1.1fr .9fr; } }
+        .left-panel,.right-panel { display:flex; align-items:center; justify-content:center; padding:2rem; }
+        .brand-box { max-width:560px; }
+        .brand-title { font-size:3rem; line-height:1.1; margin-bottom:1rem; }
+        @media (min-width:768px){ .brand-title{ font-size:4.5rem; } }
+        .highlight { color:var(--accent); }
+        .brand-text,.subtitle,.remember,.signup-text { color:var(--muted); }
+        .brand-text { font-size:1.05rem; line-height:1.8; margin-bottom:2rem; }
+        .feature-grid { display:grid; grid-template-columns:1fr; gap:1rem; }
+        @media (min-width:640px){ .feature-grid{ grid-template-columns:repeat(2,1fr); } }
+        .feature-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:20px; padding:1.2rem; backdrop-filter:blur(10px); }
+        .login-card { width:100%; max-width:430px; background:var(--card); border:1px solid var(--border); border-radius:28px; padding:2rem; backdrop-filter:blur(18px); box-shadow:0 20px 60px rgba(0,0,0,.45); }
+        .form-input { width:100%; padding:.95rem 1rem; border-radius:12px; border:1px solid var(--border); background:rgba(10,10,11,.8); color:var(--fg); outline:none; }
+        .form-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(201,162,39,.15); }
+        .row { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin:1rem 0 1.4rem; flex-wrap:wrap; }
+        .btn-primary,.btn-secondary { width:100%; border-radius:12px; padding:.95rem 1rem; font-weight:700; font-size:1rem; cursor:pointer; }
+        .btn-primary { border:none; background:linear-gradient(135deg,var(--accent),var(--accent-light)); color:#111; }
+        .btn-secondary { border:1px solid var(--border); background:transparent; color:var(--fg); }
+        .divider { display:flex; align-items:center; gap:.8rem; margin:1.4rem 0; color:var(--muted); font-size:.92rem; }
+        .divider::before,.divider::after { content:""; flex:1; height:1px; background:var(--border); }
+        .toast { position:fixed; bottom:25px; right:25px; background:#18181b; color:white; border:1px solid var(--border); padding:14px 18px; border-radius:12px; z-index:100; opacity:0; transform:translateY(20px); transition:all .3s ease; }
+        .toast.show { opacity:1; transform:translateY(0); }
+        a { color:var(--accent-light); text-decoration:none; }
+    </style>
+</head>
+<body>
+<div class="bg-atmosphere"></div>
+<div class="login-wrapper">
+    <section class="left-panel">
+        <div class="brand-box">
+            <div class="text-2xl font-bold mb-6"><span class="highlight">Art</span>Gallery</div>
+            <h1 class="brand-title">Step into a world of timeless <span class="highlight">art</span></h1>
+            <p class="brand-text">Discover iconic masterpieces, explore curated exhibitions, connect with artists, and manage your own virtual gallery experience in one elegant platform.</p>
+            <div class="feature-grid">
+                <div class="feature-card"><h3>Curated Collections</h3><p>Browse classic, modern, and featured artworks from renowned creators.</p></div>
+                <div class="feature-card"><h3>Live Exhibitions</h3><p>Open digital exhibition spaces and view artwork details beautifully.</p></div>
+                <div class="feature-card"><h3>Artist Network</h3><p>Connect with artists, curators, collectors, and gallery managers.</p></div>
+                <div class="feature-card"><h3>Admin Dashboard</h3><p>Manage artworks, users, exhibitions, and settings from one place.</p></div>
+            </div>
+        </div>
+    </section>
+    <section class="right-panel">
+        <div class="login-card">
+            <h2 class="text-3xl mb-2">Welcome Back</h2>
+            <p class="subtitle mb-7">Login to continue to your Virtual Art Gallery dashboard</p>
+            <form id="loginForm">
+                <div class="mb-4"><label for="email" class="block mb-2">Email Address</label><input type="email" id="email" class="form-input" placeholder="Enter your email" required></div>
+                <div class="mb-4"><label for="password" class="block mb-2">Password</label><input type="password" id="password" class="form-input" placeholder="Enter your password" required></div>
+                <div class="row"><label class="remember flex items-center gap-2"><input type="checkbox"> Remember me</label><a href="#" onclick="showToast('Password reset feature demo')">Forgot password?</a></div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <div class="divider">or</div>
+            <button class="btn-secondary" onclick="guestLogin()">Continue as Guest</button>
+            <p class="signup-text text-center mt-6">Don’t have an account? <a href="signup.html">Sign up</a></p>
+            <p class="text-xs mt-4 text-zinc-400">Demo login: admin@artgallery.com / admin123</p>
+        </div>
+    </section>
+</div>
+<div class="toast" id="toast">Login successful</div>
+<script>
+const loginForm = document.getElementById('loginForm');
+const toast = document.getElementById('toast');
+loginForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+  if (!email || !password) return showToast('Please fill in all fields');
+  try {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await response.json();
+    if (!response.ok) return showToast(data.message || 'Invalid email or password');
+    localStorage.setItem('galleryUserName', data.fullname);
+    localStorage.setItem('galleryUserEmail', data.email);
+    showToast('Login successful');
+    setTimeout(() => window.location.href = 'gallery.html', 900);
+  } catch (e) {
+    showToast('Unable to connect to server');
+  }
+});
+function guestLogin() {
+  localStorage.setItem('galleryUserName', 'Guest User');
+  localStorage.setItem('galleryUserEmail', 'guest@artgallery.com');
+  showToast('Guest login successful');
+  setTimeout(() => window.location.href = 'gallery.html', 700);
+}
+function showToast(message) {
+  toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
